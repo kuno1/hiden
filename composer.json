@@ -1,0 +1,22 @@
+{
+    "name": "kuno1/hiden",
+    "description": "Updator for WordPress extensions in Kunoichi.",
+    "type": "wordpress-plugin",
+    "license": "GPL-3.0-or-later",
+    "authors": [
+        {
+            "name": "Kunoichi",
+            "email": "fumikito@kunoichiwp.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {},
+    "require-dev": {
+        "phpunit/phpunit": "^6"
+    },
+    "autoload": {
+        "psr-0": {
+            "Kunoichi\\Hiden": "src"
+        }
+    }
+}
