@@ -46,13 +46,14 @@ trait Endpoint {
 	/**
 	 * Get plugin endpoint.
 	 *
-	 * @param string $plugin
+	 * @param string $plugin_slug
 	 * @return string
 	 */
-	protected function plugin_endpoint( $plugin = '' ) {
-		$endpoint = $this->endpoint() . '/plugins';
-		if ( $plugin ) {
-			$endpoint .= '/' . $plugin;
+	protected function plugin_endpoint( $plugin_slug = '' ) {
+		if ( $plugin_slug ) {
+			$endpoint = $this->endpoint() . sprintf( '/wp-json/makibishi/v1/plugin/%s', rawurlencode( $plugin_slug ) );
+		} else {
+			$endpoint = $this->endpoint() . '/wp-json/makibishi/v1/plugins/list';
 		}
 		return esc_url( $endpoint );
 	}

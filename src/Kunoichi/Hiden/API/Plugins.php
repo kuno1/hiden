@@ -23,19 +23,14 @@ class Plugins extends Singleton {
 	 */
 	public function get_plugin_list( $plugins ) {
 		if ( ! $plugins ) {
-			return [];
-		}
-		$plugin_list = [];
-		foreach ( $plugins as $slug => $version ) {
-			$plugin_list[] = [
-				'slug'    => $slug,
-				'version' => $version,
-			];
+			return new \WP_Error( 'no_plugins_specified', __( 'No plugin is specified.', 'hiden' ), [
+				'status' => 404,
+			] );
 		}
 		$request = [
 			'api_key'  => $this->get_api_key(),
 			'site_url' => $this->get_site_url(),
-			'plugins'  => json_encode( $plugin_list ),
+			'plugins'  => json_encode( $plugins ),
 		];
 		$response = wp_remote_post( $this->plugin_endpoint(), [
 			'timeout'    => 10,
@@ -46,7 +41,54 @@ class Plugins extends Singleton {
 		if ( is_wp_error( $response ) ) {
 			return $response;
 		}
-		return json_decode( $response['body'] );
+		$response_json = json_decode( $response['body'] );
+		if ( is_null( $response_json ) ) {
+			return $this->invalid_error();
+		}
+		return $response_json;
+	}
+	
+	/**
+	 * get plugin detail.
+	 *
+	 * @param string $slug
+	 * @return \stdClass|\WP_Error
+	 */
+	public function get_plugin_detail( $slug ) {
+		$endpoint = add_query_arg( [
+			'api_key'  => $this->get_api_key(),
+			'site_url' => $this->get_site_url(),
+		], $this->plugin_endpoint( $slug ) );
+		$response = wp_remote_get( $endpoint, [
+			'timeout'    => 10,
+			'user-agent' => 'WordPress / Hiden 1.0',
+			'sslverify'  => false,
+		] );
+		if ( is_wp_error( $response ) ) {
+			return $response;
+		}
+		$data = json_decode( $response['body'] );
+		if ( ! $data ) {
+			return $this->invalid_error();
+		}
+		foreach ( $data as $key => $value ) {
+			if ( ! is_object( $value ) ) {
+				continue;
+			}
+			switch ( $key ) {
+				case 'contributors':
+					$value = (array) $value;
+					array_walk( $value, function( &$value, $key ) {
+						$value = (array) $value;
+					} );
+					$data->{$key} = $value;
+					break;
+				default:
+					$data->{$key} = (array) $value;
+					break;
+			}
+		}
+		return $data;
 	}
 
 	/**
@@ -93,14 +135,29 @@ class Plugins extends Singleton {
 		if ( ! $info || empty( $info['PluginURI'] ) || ! $this->is_kunoichi( $info['PluginURI'] ) ) {
 			return false;
 		}
-		$result = $this->get_plugin_list( [ $info['MainFile'] => $info['Version'] ] );
-		if ( ! $result || is_wp_error( $result ) ) {
-			return false;
+		$result = $this->get_plugin_detail( $args->slug );
+		if ( is_wp_error( $result ) ) {
+			wp_die( $result->get_error_message() );
 		}
 		return $result;
-		var_dump( $result );
-		exit;
-		return false;
+	}
+	
+	/**
+	 * Grab all plugins from Kunoichi.
+	 *
+	 * @return array[]
+	 */
+	public function grab_plugins() {
+		if ( ! function_exists( 'get_plugins' ) ) {
+			return [];
+		}
+		$should_return = [];
+		foreach ( get_plugins() as $slug => $plugin ) {
+			if ( isset( $plugin['PluginURI'] ) && preg_match( '#^https?://kunoichiwp.com#u', $plugin['PluginURI'] ) ) {
+				$should_return[ $slug ] = $plugin;
+			}
+		}
+		return $should_return;
 	}
 
 	/**
@@ -129,5 +186,16 @@ class Plugins extends Singleton {
 			break;
 		}
 		return $found_data;
+	}
+	
+	/**
+	 * Returns invalid error.
+	 *
+	 * @return \WP_Error
+	 */
+	private function invalid_error() {
+		return new \WP_Error( 'invalid_result', __( 'Invalid response from Plugin API.', 'hiden' ), [
+			'status' => 500,
+		] );
 	}
 }

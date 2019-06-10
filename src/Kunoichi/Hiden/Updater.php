@@ -34,11 +34,12 @@ class Updater extends Singleton {
 //		add_filter( 'upgrader_source_selection', [ $this, 'upgrader_source_selection' ], 1 );
 		// Filter plugin API.
 		add_filter( 'plugins_api', [ $this->plugins, 'plugins_api' ], 10, 3 );
+		// Filter plugin list.
+		
 		// Filter plugin updater list.
 		add_filter( 'site_transient_update_plugins', [ $this, 'site_transient_update_plugins' ] );
 	}
-
-
+	
 	/**
 	 * Add additional plugin update information.
 	 *
@@ -48,14 +49,10 @@ class Updater extends Singleton {
 	public function site_transient_update_plugins( $plugins ) {
 		$list = get_site_transient( $this->plugin_transient );
 		if ( false === $list ) {
-			$should_check = [];
-			foreach ( $plugins->checked as $slug => $version ) {
-				if ( isset( $plugins->response[ $slug ] ) || isset( $plugins->no_update[ $slug ] ) ) {
-					// This plugin is on public repo.
-					continue;
-				}
-				$should_check[ $slug ] = $version;
-			}
+			$should_check = $this->plugins->grab_plugins();
+			array_walk( $should_check, function( &$plugin, $key ) {
+				$plugin = $plugin['Version'];
+			} );
 			$response = $this->plugins->get_plugin_list( $should_check );
 			if ( is_wp_error( $response ) ) {
 				$this->options->save_log( [
@@ -66,16 +63,28 @@ class Updater extends Singleton {
 			} else {
 				$this->options->clear_log();
 			}
-			$list = is_wp_error( $response ) ? [] : $response;
+			$list = is_wp_error( $response ) || ! is_array( $response ) ? [] : $response;
 			// set_site_transient( $this->plugin_transient, $list, 10 * MINUTE_IN_SECONDS );
 		}
-		foreach ( $list as $plugin ) {
-			// If in list of no_update, remove it.
-			if ( isset( $plugins->no_update[ $plugin->plugin ] ) ) {
-				unset( $plugins->no_update[ $plugin->plugin ] );
+		if ( $list ) {
+			foreach ( $list as $plugin ) {
+				$new_version = $plugin->new_version;
+				$plugin_file = $plugin->plugin;
+				if ( isset( $plugins->checked ) ) {
+					
+					foreach ( $plugins->checked as $file => $old_version ) {
+						if ( $file !== $plugin_file ) {
+							continue;
+						}
+						if ( version_compare( $new_version, $old_version, '>' ) ) {
+							$plugins->response[ $plugin_file ] = $plugin;
+						} else {
+							$plugins->no_update[ $plugin_file ] = $plugin;
+						}
+						break;
+					}
+				}
 			}
-			// Add it to update list.
-			$plugins->response[ $plugin->plugin ] = $plugin;
 		}
 		return $plugins;
 	}
