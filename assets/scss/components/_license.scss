@@ -1,0 +1,34 @@
+#hiden_api_key_result{
+
+  transition: opacity .5s linear;
+  opacity: 1;
+  min-height: 1em;
+  &.loading{
+    opacity: 0;
+  }
+  & > span {
+    visibility: hidden;
+  }
+  &.invalid {
+    .valid-string{
+      display: none;
+    }
+    .invalid-string{
+      visibility: visible;
+    }
+  }
+  &.valid{
+    .valid-string{
+      visibility: visible;
+    }
+    .invalid-string{
+      display: none;
+    }
+  }
+  .dashicons-yes{
+    color: #24e668;
+  }
+  .dashicons-no{
+    color: #e61f16;
+  }
+}

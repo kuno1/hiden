@@ -10,15 +10,19 @@ Author URI: https://kunoichiwp.com
 License: GPL 3.0 or later
 Text Domain: hiden
 Domain Path: /languages
-
  */
 
 defined( 'ABSPATH' ) || die();
+
+define( 'HIDEN_ROOT_DIR', dirname( __FILE__ ) );
 
 /**
  * Plugin init.
  */
 function hiden_plugins_loaded() {
+	// Define hiden version.
+	$info = get_file_data( __FILE__, [ 'version' => 'Version' ] );
+	define( 'HIDEN_VERSION', $info['version'] );
 	// Register text domain.
 	load_plugin_textdomain( 'hiden', false, basename( __DIR__ ) . '/languages' );
 	// Load functions.

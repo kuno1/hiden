@@ -35,7 +35,7 @@ class Updater extends Singleton {
 		// Filter plugin API.
 		add_filter( 'plugins_api', [ $this->plugins, 'plugins_api' ], 10, 3 );
 		// Filter plugin list.
-		
+		$this->options->register_filter();
 		// Filter plugin updater list.
 		add_filter( 'site_transient_update_plugins', [ $this, 'site_transient_update_plugins' ] );
 	}

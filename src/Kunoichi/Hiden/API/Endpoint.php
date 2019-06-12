@@ -15,7 +15,7 @@ trait Endpoint {
 	 * @return string
 	 */
 	protected function get_api_key() {
-		return get_option( 'hide_api_key', '' );
+		return get_option( 'hiden_api_key', '' );
 	}
 
 	/**
