@@ -45,7 +45,7 @@ class Plugins extends Singleton {
 		if ( is_null( $response_json ) ) {
 			return $this->invalid_error();
 		}
-		return $response_json;
+		return array_map( [ $this, 'object_to_assocs' ], $response_json );
 	}
 	
 	/**
@@ -71,7 +71,18 @@ class Plugins extends Singleton {
 		if ( ! $data ) {
 			return $this->invalid_error();
 		}
-		foreach ( $data as $key => $value ) {
+		return $this->object_to_assocs( $data );
+	}
+	
+	/**
+	 * Convert JSON properties to array.
+	 *
+	 * @param \stdClass $json
+	 *
+	 * @return \stdClass
+	 */
+	private function object_to_assocs( $json ) {
+		foreach ( $json as $key => $value ) {
 			if ( ! is_object( $value ) ) {
 				continue;
 			}
@@ -81,14 +92,14 @@ class Plugins extends Singleton {
 					array_walk( $value, function( &$value, $key ) {
 						$value = (array) $value;
 					} );
-					$data->{$key} = $value;
+					$json->{$key} = $value;
 					break;
 				default:
-					$data->{$key} = (array) $value;
+					$json->{$key} = (array) $value;
 					break;
 			}
 		}
-		return $data;
+		return $json;
 	}
 
 	/**

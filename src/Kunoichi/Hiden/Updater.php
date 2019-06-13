@@ -31,7 +31,7 @@ class Updater extends Singleton {
 		// add_filter( 'plugins_api_result', [ $this, 'plugins_api_result' ], 10, 3 );
 //		add_filter( 'pre_set_site_transient_update_plugins', [ $this, 'pre_set_site_transient_update_plugins' ] );
 		// Filter upgrader source.
-//		add_filter( 'upgrader_source_selection', [ $this, 'upgrader_source_selection' ], 1 );
+		add_filter( 'upgrader_source_selection', [ $this, 'upgrader_source_selection' ], 10, 4 );
 		// Filter plugin API.
 		add_filter( 'plugins_api', [ $this->plugins, 'plugins_api' ], 10, 3 );
 		// Filter plugin list.
@@ -47,6 +47,9 @@ class Updater extends Singleton {
 	 * @return $plugins
 	 */
 	public function site_transient_update_plugins( $plugins ) {
+		if ( ! $plugins ) {
+			return $plugins;
+		}
 		$list = get_site_transient( $this->plugin_transient );
 		if ( false === $list ) {
 			$should_check = $this->plugins->grab_plugins();
@@ -88,11 +91,39 @@ class Updater extends Singleton {
 		}
 		return $plugins;
 	}
-
-
-
-	public function upgrader_source_selection() {
-
+	
+	/**
+	 * Filter upgrade resource to change directory name.
+	 *
+	 * @param $source
+	 * @param $remote_source
+	 * @param $upgrader
+	 * @param $args
+	 *
+	 * @return mixed
+	 */
+	public function upgrader_source_selection( $source, $remote_source, $upgrader, $args ) {
+		// Check if this plugin is kunoichi?
+		$files = glob( $source . '*.php' );
+		if ( $files ) {
+			foreach ( $files as $file ) {
+				$info = get_plugin_data( $file );
+				if ( empty( $info['PluginURI'] ) || ! $this->plugins->is_kunoichi_url( $info['PluginURI'] ) ) {
+					continue;
+				}
+				// This is kunoichi plugin.
+				// Rename directory and move it to plugin dir.
+				$path_parts = pathinfo( $source );
+				$slug       = preg_split( '/-\d+\.\d+\.\d+-/u', basename( $source ) );
+				if ( 2 > count( $slug ) ) {
+					continue;
+				}
+				$new_source = trailingslashit( $path_parts['dirname'] ) . trailingslashit( $slug[0] );
+				rename( $source, $new_source );
+				$source = $new_source;
+			}
+		}
+		return $source;
 	}
 
 	/**

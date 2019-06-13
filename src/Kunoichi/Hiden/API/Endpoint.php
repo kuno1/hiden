@@ -42,6 +42,22 @@ trait Endpoint {
 		}
 		return untrailingslashit( $endpoint );
 	}
+	
+	/**
+	 * Detect if
+	 *
+	 * @param string $url
+	 *
+	 * @return bool
+	 */
+	public function is_kunoichi_url( $url ) {
+		foreach ( [ $this->endpoint(), 'kunoichiwp.com' ] as $haystack ) {
+			if ( false !== strpos( $url, $haystack ) ) {
+				return true;
+			}
+		}
+		return false;
+	}
 
 	/**
 	 * Get plugin endpoint.
