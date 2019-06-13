@@ -1,14 +1,10 @@
 <?php
-/**
- * Class SampleTest
- *
- * @package Hiden
- */
 
 /**
- * Sample test case.
+ * Utilities test case
+ * @package hiden
  */
-class SampleTest extends WP_UnitTestCase {
+class UtilitiesTest extends WP_UnitTestCase {
 
 	/**
 	 * A single example test.

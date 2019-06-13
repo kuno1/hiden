@@ -11,6 +11,9 @@
     ],
     "minimum-stability": "stable",
     "require": {},
+    "scripts": {
+        "test": "phpunit"
+    },
     "require-dev": {
         "phpunit/phpunit": "^6"
     },

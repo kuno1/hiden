@@ -1,10 +1,10 @@
 <?php
 /**
 Plugin Name: Hiden
-Plugin URI: https://kunoichiwp.com/product/hiden
+Plugin URI: https://kunoichiwp.com/product/plugin/hiden
 Description: Plugin and theme updater for kunoichi.
-Version: 1.0.0
-PHP Version: 5.4
+Version: nightly
+PHP Version: 5.6
 Author: Kunoichi INC.
 Author URI: https://kunoichiwp.com
 License: GPL 3.0 or later

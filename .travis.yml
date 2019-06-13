@@ -1,65 +1,48 @@
 sudo: false
 dist: trusty
-
 language: php
-
 notifications:
   email:
     on_success: never
     on_failure: change
-
 branches:
   only:
-    - master
-
+  - master
+  - "/^v?[0-9\\.]+$/"
 cache:
   directories:
-    - $HOME/.composer/cache
-
-matrix:
-  include:
-    - php: 7.2
-      env: WP_VERSION=latest
-    - php: 7.1
-      env: WP_VERSION=latest
-    - php: 7.0
-      env: WP_VERSION=latest
-    - php: 5.6
-      env: WP_VERSION=latest
-    - php: 5.6
-      env: WP_VERSION=trunk
-    - php: 5.6
-      env: WP_TRAVISCI=phpcs
-    - php: 5.3
-      env: WP_VERSION=latest
-      dist: precise
-
+  - "$HOME/.composer/cache"
+php:
+- 5.6
+- 7.0
+env:
+- WP_VERSION=latest WP_MULTISITE=0
+- WP_VERSION=4.9 WP_MULTISITE=0
+- WP_VERSION=5.0 WP_MULTISITE=0
 before_script:
-  - export PATH="$HOME/.composer/vendor/bin:$PATH"
-  - |
-    if [ -f ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini ]; then
-      phpenv config-rm xdebug.ini
-    else
-      echo "xdebug.ini does not exist"
-    fi
-  - |
-    if [[ ! -z "$WP_VERSION" ]] ; then
-      bash bin/install-wp-tests.sh wordpress_test root '' localhost $WP_VERSION
-      composer global require "phpunit/phpunit=4.8.*|5.7.*"
-    fi
-  - |
-    if [[ "$WP_TRAVISCI" == "phpcs" ]] ; then
-      composer global require wp-coding-standards/wpcs
-      phpcs --config-set installed_paths $HOME/.composer/vendor/wp-coding-standards/wpcs
-    fi
-
+- composer install
+- curl -s -o $HOME/.nvm/nvm.sh https://raw.githubusercontent.com/creationix/nvm/v0.31.0/nvm.sh
+- source $HOME/.nvm/nvm.sh
+- nvm install v10.13.0
+- node --version
+- npm install && npm run package
+- bash bin/install-wp-tests.sh wordpress_test root '' localhost $WP_VERSION
 script:
-  - |
-    if [[ ! -z "$WP_VERSION" ]] ; then
-      phpunit
-      WP_MULTISITE=1 phpunit
-    fi
-  - |
-    if [[ "$WP_TRAVISCI" == "phpcs" ]] ; then
-      phpcs
-    fi
+- composer test
+before_deploy:
+  - composer install --no-dev
+  - rm -rf .git
+  - "curl -L https://raw.githubusercontent.com/fumikito/wp-readme/master/wp-readme.php | php"
+  - rm -rf {tests,assets,bin,node_modules,.git,phpunit.xml.dist,.gitignore,.travis.yml,phpunit.xml.dist,README.md,composer.lock,package-lock.json,.phpcs.xml.dist.travis.yml}
+  - sed -i -e "s/nightly/${TRAVIS_TAG}/" readme.txt
+  - sed -i -e "s/nightly/${TRAVIS_TAG}/" $(basename $TRAVIS_REPO_SLUG).php
+  - zip -r hiden-$TRAVIS_TAG.zip ./
+deploy:
+  provider: releases
+  api_key:
+    secure: hwK3iqs89CvYAxWmp88379PG53mIvG7RS3kKKBQ9LrSPqCOi5nOMk3S9HYj14dqCFpu1nbYnXC4v1AzIoNWbYKkUQuCbYgAOYsYHB5BxiDNl2u2RtQRjA6is5rSXK5U3gagT3/yFcM0+vdJuFjMwSjwPsoEEi+wcCT31SANM1HA2Ypbvp3zVP1KzootE0pKmNBmwJQFHQ1/I56ObR72M5m0VwGriUVx7/FJU7CTUh/R00AeGsWGBSlXS8srPeVpI41JS48GmNkS+fGrteOyckiho38o8EkZg8oH0D+OpHRI8QqX0Ckj3cVUj3EOED8narFyAoCKHiH/+R1Tl2EwLzM7DSCHOEuf36+bZSP4eCARmodFWeoyP5rtO3/Yox8QtOQ8PHIfoMLGcOa4pVX4jYmnRDB0xfRvgKO+WXXKpqNfxCrYT361IL4Q4uqoYBIl2MYw9atuuXZU7ssdm7adz7ewnGfB6kn+nH1k8kWuDG9FWXicZ9YAcLhnW8b9Ciuv1P0mIThCpBIJSK2k0L0yzD2XtDV0uS+mMxNhLo9sPJWhIqJ50qyCZgQmxlbED9KFSXcq1z5CBgz2qm92idBnJwTa8KsQGpPAxvrsdn1gKtDDOJXpMaveOcTBBC5fxWO2c08emOVT1sRBw2Wu9PZKGBE2JWO0UXL5EWJwJHTZg+6A=
+  file: hiden-$TRAVIS_TAG.zip
+  skip_cleanup: true
+  on:
+    repo: kuno1/hiden
+    tags: true
