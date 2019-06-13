@@ -15,7 +15,7 @@
         "test": "phpunit"
     },
     "require-dev": {
-        "phpunit/phpunit": "^6"
+        "phpunit/phpunit": "^5"
     },
     "autoload": {
         "psr-0": {
