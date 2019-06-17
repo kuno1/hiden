@@ -67,7 +67,7 @@ class Updater extends Singleton {
 				$this->options->clear_log();
 			}
 			$list = is_wp_error( $response ) || ! is_array( $response ) ? [] : $response;
-			// set_site_transient( $this->plugin_transient, $list, 10 * MINUTE_IN_SECONDS );
+			set_site_transient( $this->plugin_transient, $list, 10 * MINUTE_IN_SECONDS );
 		}
 		if ( $list ) {
 			foreach ( $list as $plugin ) {
