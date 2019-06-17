@@ -1,6 +1,6 @@
 <?php
 /**
-Plugin Name: Hiden
+Plugin Name: Kunoichi Updater
 Plugin URI: https://kunoichiwp.com/product/plugin/hiden
 Description: Plugin and theme updater for kunoichi.
 Version: nightly
@@ -14,15 +14,10 @@ Domain Path: /languages
 
 defined( 'ABSPATH' ) || die();
 
-define( 'HIDEN_ROOT_DIR', dirname( __FILE__ ) );
-
 /**
  * Plugin init.
  */
 function hiden_plugins_loaded() {
-	// Define hiden version.
-	$info = get_file_data( __FILE__, [ 'version' => 'Version' ] );
-	define( 'HIDEN_VERSION', $info['version'] );
 	// Register text domain.
 	load_plugin_textdomain( 'hiden', false, basename( __DIR__ ) . '/languages' );
 	// Load functions.
@@ -50,5 +45,5 @@ add_action( 'plugins_loaded', 'hiden_plugins_loaded' );
  * Display PHP version error.
  */
 function hiden_php_error() {
-	printf( '<div class="error"><p>%s</p></div>', esc_html( sprintf( __( 'Hiden requires PHP 5.4 and over, but yours is %s. Please consider upgrading PHP.', 'hiden' ), phpversion() ) ) );
+	printf( '<div class="error"><p>%s</p></div>', esc_html( sprintf( __( 'Kunoichi Updater requires PHP 5.4 and over, but yours is %s. Please consider upgrading PHP.', 'hiden' ), phpversion() ) ) );
 }

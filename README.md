@@ -1,4 +1,4 @@
-# Hiden
+# Kunoichi Updater
 
 Contributors: kunoichi,Takahashi_Fumiki  
 Donate link: https://kunoichiwp.com/product/plugin/hiden  
@@ -15,11 +15,13 @@ A auto updater for [Kunoichi WP Marketplace(kunoiciwp.com).
 
 This plugin integrates WordPress updater with [Kunoichi WP Marketplace](https://kunoichiwp.com).
 
-Just install and activate, your can update all of our products.
+Just install and activate, you can update all of our products.
 
 ### Current Status
 
 * Plugin updater
+* <s>Theme updater</s>
+* <s>Translation updater</s>
 
 ## Installation
 
@@ -35,3 +37,13 @@ If the license is valid, you can update plugins and themes.
 ## Supports
 
 Please visit our [support forum](https://kunoichiwp.com/product/plugin/hiden).
+
+## Change Log
+
+### 1.1.0
+
+* Public release.
+
+### 1.0.0
+
+* Initial release.

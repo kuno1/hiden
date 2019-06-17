@@ -35,9 +35,9 @@ class Options extends Singleton {
 	 * Register assets.
 	 */
 	public function register_assets() {
-		$asset_dir = plugin_dir_url( HIDEN_ROOT_DIR . '/assets' ) . '/dist';
-		wp_register_script( 'hiden-option-helper', $asset_dir . '/js/hiden-option-helper.js', [ 'wp-api-request' ], HIDEN_VERSION, true );
-		wp_register_style( 'hiden-admin', $asset_dir . '/css/admin.css', [], HIDEN_VERSION );
+		$asset_dir = hiden_url() . '/dist';
+		wp_register_script( 'hiden-option-helper', $asset_dir . '/js/hiden-option-helper.js', [ 'wp-api-request' ], hiden_version(), true );
+		wp_register_style( 'hiden-admin', $asset_dir . '/css/admin.css', [], hiden_version() );
 	}
 	
 	/**
