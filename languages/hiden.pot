@@ -1,0 +1,106 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"Project-Id-Version: Kunoichi Updater\n"
+"POT-Creation-Date: 2019-06-17 18:27+0900\n"
+"PO-Revision-Date: 2019-06-17 18:26+0900\n"
+"Last-Translator: Takahashi Fumiki <takahashi.fumiki@hametuha.co.jp>\n"
+"Language-Team: Takahashi Fumiki <takahashi.fumiki@hametuha.co.jp>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.2\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-Flags-xgettext: --add-comments=translators:\n"
+"X-Poedit-WPHeader: hiden.php\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
+"_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: vendor\n"
+"X-Poedit-SearchPathExcluded-1: node_modules\n"
+"X-Poedit-SearchPathExcluded-2: dist\n"
+"X-Poedit-SearchPathExcluded-3: tests\n"
+
+#: hiden.php:48
+#, php-format
+msgid ""
+"Kunoichi Updater requires PHP 5.4 and over, but yours is %s. Please consider "
+"upgrading PHP."
+msgstr ""
+
+#: src/Kunoichi/Hiden/API/Plugins.php:26
+msgid "No plugin is specified."
+msgstr ""
+
+#: src/Kunoichi/Hiden/API/Plugins.php:208
+msgid "Invalid response from Plugin API."
+msgstr ""
+
+#: src/Kunoichi/Hiden/Options.php:58
+msgid "Kunoichi Updater Setting"
+msgstr ""
+
+#: src/Kunoichi/Hiden/Options.php:87
+#, php-format
+msgid ""
+"Please enter <a href=\"%s\">Kunoichi API key</a> to get continuous update."
+msgstr ""
+
+#: src/Kunoichi/Hiden/Options.php:90
+msgid "Dismiss notice"
+msgstr ""
+
+#: src/Kunoichi/Hiden/Options.php:101
+msgid "Credentials"
+msgstr ""
+
+#: src/Kunoichi/Hiden/Options.php:105
+msgid "API Key"
+msgstr ""
+
+#: src/Kunoichi/Hiden/Options.php:110
+msgid "API key is invalid."
+msgstr ""
+
+#: src/Kunoichi/Hiden/Options.php:111
+msgid "API key is valid."
+msgstr ""
+
+#: src/Kunoichi/Hiden/Options.php:127
+msgid "You can get your API key at Kunoichi WP Marketplace."
+msgstr ""
+
+#: src/Kunoichi/Hiden/Options.php:128
+msgid "Visit Kunoichi"
+msgstr ""
+
+#: src/Kunoichi/Hiden/Options.php:152
+msgid "API key is not set."
+msgstr ""
+
+#: src/Kunoichi/Hiden/Options.php:165
+msgid "Failed to get valid results."
+msgstr ""
+
+#. Plugin Name of the plugin/theme
+msgid "Kunoichi Updater"
+msgstr ""
+
+#. Plugin URI of the plugin/theme
+msgid "https://kunoichiwp.com/product/plugin/hiden"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid "Plugin and theme updater for kunoichi."
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "Kunoichi INC."
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "https://kunoichiwp.com"
+msgstr ""

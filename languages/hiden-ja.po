@@ -1,0 +1,99 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: 2019-06-17 18:27+0900\n"
+"PO-Revision-Date: 2019-06-17 18:40+0900\n"
+"Last-Translator: Takahashi Fumiki <takahashi.fumiki@hametuha.co.jp>\n"
+"Language-Team: \n"
+"Language: ja\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.2\n"
+"X-Poedit-Basepath: .\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: hiden.php:48
+#, php-format
+msgid ""
+"Kunoichi Updater requires PHP 5.4 and over, but yours is %s. Please consider "
+"upgrading PHP."
+msgstr ""
+"KunoichiアップデーターはPHP5.4以上必須ですが、ご利用のバージョンは %s です。"
+"PHPのアップグレードをご検討ください。"
+
+#: src/Kunoichi/Hiden/API/Plugins.php:26
+msgid "No plugin is specified."
+msgstr "プラグインが指定されていません。"
+
+#: src/Kunoichi/Hiden/API/Plugins.php:208
+msgid "Invalid response from Plugin API."
+msgstr "プラグインAPIから無効なレスポンスが返ってきました。"
+
+#: src/Kunoichi/Hiden/Options.php:58
+msgid "Kunoichi Updater Setting"
+msgstr "Kunoichiアップデーター設定"
+
+#: src/Kunoichi/Hiden/Options.php:87
+#, php-format
+msgid ""
+"Please enter <a href=\"%s\">Kunoichi API key</a> to get continuous update."
+msgstr ""
+"継続的なアップデートを受けるために <a href=\"%s\">Kunoichi API キー</a> を入"
+"力してください。"
+
+#: src/Kunoichi/Hiden/Options.php:90
+msgid "Dismiss notice"
+msgstr "但し書きを非表示"
+
+#: src/Kunoichi/Hiden/Options.php:101
+msgid "Credentials"
+msgstr "認証情報"
+
+#: src/Kunoichi/Hiden/Options.php:105
+msgid "API Key"
+msgstr "APIキー"
+
+#: src/Kunoichi/Hiden/Options.php:110
+msgid "API key is invalid."
+msgstr "APIキーは無効です。"
+
+#: src/Kunoichi/Hiden/Options.php:111
+msgid "API key is valid."
+msgstr "APIキーは有効です。"
+
+#: src/Kunoichi/Hiden/Options.php:127
+msgid "You can get your API key at Kunoichi WP Marketplace."
+msgstr "APIキーはKunoichi WP マーケットプレースで入手できます。"
+
+#: src/Kunoichi/Hiden/Options.php:128
+msgid "Visit Kunoichi"
+msgstr "Kunoichiに行く"
+
+#: src/Kunoichi/Hiden/Options.php:152
+msgid "API key is not set."
+msgstr "APIキーが設定されていません。"
+
+#: src/Kunoichi/Hiden/Options.php:165
+msgid "Failed to get valid results."
+msgstr "有効な結果を取得できませんでした。"
+
+#. Plugin Name of the plugin/theme
+msgid "Kunoichi Updater"
+msgstr "Kunoichiアップデーター"
+
+#. Plugin URI of the plugin/theme
+msgid "https://kunoichiwp.com/product/plugin/hiden"
+msgstr "https://kunoichiwp.com/product/plugin/hiden"
+
+#. Description of the plugin/theme
+msgid "Plugin and theme updater for kunoichi."
+msgstr "Kunoichiのテーマ＆プラグイン用アップデーター。"
+
+#. Author of the plugin/theme
+msgid "Kunoichi INC."
+msgstr "株式会社 KUNOICHI"
+
+#. Author URI of the plugin/theme
+msgid "https://kunoichiwp.com"
+msgstr "https://kunoichiwp.com"
